@@ -6,9 +6,16 @@ const Show = () => {
     let users = []
     const [user, setUser] = useState()
 
-    const deletaDados = (nome) => {
-        api.delete(`/user/${nome}`, user)
-        window.location.reload()
+    const deletaDados = (nome, id) => {
+        api.get('/users')
+            .then(response => {
+                if(response.data.rows.length > 1) {
+                    api.delete(`/user/${nome}/${id}`, user)
+                } else {
+                    api.delete(`/user/${nome}`, user)
+                }
+                window.location.reload()
+            })
     }
 
     const getUsers = () => {

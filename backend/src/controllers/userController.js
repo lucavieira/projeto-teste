@@ -57,7 +57,12 @@ router.get('/user/:nome', async (ctx) => {
 
 // Rota para deletar um usuario
 router.delete('/user/:nome', async (ctx) => {
-    db.exec(`DELETE FROM users WHERE nome = "${ctx.params.nome}"`)
+        db.exec(`DELETE FROM users WHERE nome = "${ctx.params.nome}"`)
+        ctx.body = {nome: '', email: '', idade: 18}
+})
+
+router.delete('/user/:nome/:id', async (ctx) => {
+    db.exec(`DELETE FROM users WHERE nome = "${ctx.params.nome}" and id = ${ctx.params.id}`)
     ctx.body = {nome: '', email: '', idade: 18}
 })
 
