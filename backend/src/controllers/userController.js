@@ -1,11 +1,11 @@
 const Router = require('koa-router');
 
 const sqlite3 = require('sqlite3').verbose();
-// const db = new sqlite3.Database(':memory:')
-const db = new sqlite3.Database('./database.db')
+const db = new sqlite3.Database(':memory:')
 
 var router = new Router();
 
+// Rota que lista os usuarios
 router.get('/users', async (ctx) => {
     db.exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, nome TEXT, email TEXT UNIQUE, idade INTEGER)')
     return new Promise((resolve, reject) => {
@@ -21,22 +21,21 @@ router.get('/users', async (ctx) => {
     })
 })
 
+// Rota para criação de usuarios
 router.post('/user', async (ctx) => {
-    // Deve criar o usuario raupp e devolver o status: 201 se for criado com sucesso
     db.exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, nome TEXT, email TEXT UNIQUE, idade INTEGER)')
     db.exec(`INSERT INTO users (nome, email, idade) VALUES (
         "${ctx.request.body.nome}", 
         "${ctx.request.body.email}", 
         ${ctx.request.body.idade})`,
         err => {
-            if(err) {
-                throw err
-            }
+            if(err) console.log(err.message)
         }
     )
     ctx.status = 201
 })
 
+// Rota que busca um usuario especifico
 router.get('/user/:nome', async (ctx) => {
     return new Promise((resolve, reject) => {
         db.get(`SELECT * FROM users WHERE nome = "${ctx.params.nome}"`, function(err, rows) {
@@ -56,9 +55,19 @@ router.get('/user/:nome', async (ctx) => {
     });
 })
 
+// Rota para deletar um usuario
 router.delete('/user/:nome', async (ctx) => {
     db.exec(`DELETE FROM users WHERE nome = "${ctx.params.nome}"`)
     ctx.body = {nome: '', email: '', idade: 18}
+})
+
+router.put('/user/:id', async (ctx) => {
+    db.exec(`UPDATE users SET 
+        nome = "${ctx.request.body.nome}",
+        email = "${ctx.request.body.email}",
+        idade = ${ctx.request.body.idade}
+        WHERE id = ${ctx.request.body.id}`
+    )
 })
 
 module.exports = router

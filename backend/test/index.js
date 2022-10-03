@@ -22,6 +22,39 @@ chai.use(chaiJson);
 
 const expect = chai.expect;
 
+// Lista de usuarios para Teste
+let users = [{
+        nome: "raupp",
+        email: "jose.raupp@devoz.com.br",
+        idade: 35
+    },
+    {
+        nome: "lucas",
+        email: "lucas@devoz.com.br",
+        idade: 22
+    },
+    {
+        nome: "laura",
+        email: "laura@devoz.com.br",
+        idade: 26
+    },
+    {
+        nome: "jaqueline",
+        email: "jaqueline@devoz.com.br",
+        idade: 30
+    },
+    {
+        nome: "rogerio",
+        email: "rogerio@devoz.com.br",
+        idade: 43
+    },
+    {
+        nome: "roberto",
+        email: "roberto@devoz.com.br",
+        idade: 45
+    }
+]
+
 //Inicio dos testes
 
 //este teste é simplesmente pra enteder a usar o mocha/chai
@@ -54,97 +87,18 @@ describe('Testes da aplicaçao',  () => {
         });
     });
 
-    it('deveria criar o usuario raupp', function (done) {
-        let user = {
-            nome: "raupp",
-            email: "jose.raupp@devoz.com.br",
-            idade: 35
-        }
-        chai.request(app)
-        .post('/user')
-        .send(user)
-        .end(function (err, res) {
-            expect(err).to.be.null;
-            expect(res).to.have.status(201);
-            done();
+    for(let user of users) {
+        it(`deveria criar o usuario ${user.nome}`, function (done) {
+                chai.request(app)
+                .post('/user')
+                .send(user)
+                .end(function (err, res) {
+                    expect(err).to.be.null;
+                    expect(res).to.have.status(201);
+                    done();
+            });
         });
-    });
-
-    it('deveria criar o usuario lucas', function (done) {
-        let user = {
-            nome: "lucas",
-            email: "lucas@devoz.com.br",
-            idade: 22
-        }
-        chai.request(app)
-        .post('/user')
-        .send(user)
-        .end(function (err, res) {
-            expect(err).to.be.null;
-            expect(res).to.have.status(201);
-            done();
-        });
-    });
-    it('deveria criar o usuario laura', function (done) {
-        let user = {
-            nome: "laura",
-            email: "laura@devoz.com.br",
-            idade: 26
-        }
-        chai.request(app)
-        .post('/user')
-        .send(user)
-        .end(function (err, res) {
-            expect(err).to.be.null;
-            expect(res).to.have.status(201);
-            done();
-        });
-    });
-    it('deveria criar o usuario jaqueline', function (done) {
-        let user = {
-            nome: "jaqueline",
-            email: "jaqueline@devoz.com.br",
-            idade: 30
-        }
-        chai.request(app)
-        .post('/user')
-        .send(user)
-        .end(function (err, res) {
-            expect(err).to.be.null;
-            expect(res).to.have.status(201);
-            done();
-        });
-    });
-    it('deveria criar o usuario rogerio', function (done) {
-        let user = {
-            nome: "rogerio",
-            email: "rogerio@devoz.com.br",
-            idade: 43
-        }
-        chai.request(app)
-        .post('/user')
-        .send(user)
-        .end(function (err, res) {
-            expect(err).to.be.null;
-            expect(res).to.have.status(201);
-            done();
-        });
-    });
-    it('deveria criar o usuario roberto', function (done) {
-        let user = {
-            nome: "roberto",
-            email: "roberto@devoz.com.br",
-            idade: 45
-        }
-        chai.request(app)
-        .post('/user')
-        .send(user)
-        .end(function (err, res) {
-            expect(err).to.be.null;
-            expect(res).to.have.status(201);
-            done();
-        });
-    });
+    }
     //...adicionar pelo menos mais 5 usuarios. se adicionar usuario menor de idade, deve dar erro. Ps: não criar o usuario naoExiste
 
     it('o usuario naoExiste não existe no sistema', function (done) {

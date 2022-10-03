@@ -8,6 +8,7 @@ const Show = () => {
 
     const deletaDados = (nome) => {
         api.delete(`/user/${nome}`, user)
+        window.location.reload()
     }
 
     const getUsers = () => {
@@ -17,6 +18,7 @@ const Show = () => {
                     users.push(
                         <Card 
                             key={index}
+                            id={response.data.rows[index].id}
                             nome={response.data.rows[index].nome}
                             email={response.data.rows[index].email}
                             idade={response.data.rows[index].idade}
@@ -36,10 +38,10 @@ const Show = () => {
 
     return (
         <div className='container'>
-            <a className="btn btn-outline-dark" href="/" role="button">Voltar</a>
             <div className='d-flex flex-wrap'>
                 {user}
             </div>
+            <a className="btn btn-outline-dark" href="/" role="button">Voltar</a>
         </div>
     );
 }
