@@ -4,8 +4,27 @@ import api from '../../services/api'
 const Create = () => {
   const [data, setData] = useState()
 
+  const alertMessage = (message, type) => {
+    document.getElementById('message').innerHTML = message
+    document.getElementById('message').classList.add(type)
+    document.getElementById('message').classList.remove('d-none')
+  }
+
   const enviaDados = () => {
     api.post('/user', data)
+      .then(result => {
+        alertMessage('Cadastrado com Sucesso', 'alert-success')
+        setTimeout(() => {
+          document.getElementById('message').classList.remove('alert-success')
+          document.getElementById('message').classList.add('d-none')
+        }, 2000)
+      }).catch(error => {
+        alertMessage(error.response.data, 'alert-danger')
+        setTimeout(() => {
+          document.getElementById('message').classList.remove('alert-danger')
+          document.getElementById('message').classList.add('d-none')
+        }, 2000)
+      })
   }
 
   const changeData = (element) => {
@@ -16,7 +35,8 @@ const Create = () => {
 
   return (
     <div className='vh-100 d-flex justify-content-center align-items-center'>
-      <div className='container-sm d-flex justify-content-center'>
+      <div className='container-sm d-flex flex-column align-items-center'>
+        <div className="alert d-none" role="alert" id="message"></div>
         <div className='card d-flex flex-column align-items-center'>
           <form className="row mb-3 d-flex justify-content-center m-3">
             <div className="col-sm-8 card-body">
@@ -33,7 +53,7 @@ const Create = () => {
             </div>
           </form>
           <div className='d-flex gap-3'>
-            <a className="btn btn-outline-success mb-3" href="/" onClick={enviaDados} role="button">Cadastrar usuário</a>
+            <a className="btn btn-outline-success mb-3" onClick={enviaDados} role="button">Cadastrar usuário</a>
             <a className="btn btn-outline-dark mb-3" href="/listar" role="button">Listar usuários</a>
           </div>
         </div>

@@ -45,6 +45,7 @@ router.post('/user', async (ctx) => {
 
     if(errors.length > 0) {
         console.log(errors[0].message)
+        ctx.message = errors[0].message
     } else {
         db.exec(`INSERT INTO users (nome, email, idade) VALUES (
             "${ctx.request.body.nome}", 
