@@ -23,16 +23,40 @@ router.get('/users', async (ctx) => {
 
 // Rota para criação de usuarios
 router.post('/user', async (ctx) => {
+    let errors = []
+
     db.exec('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, nome TEXT, email TEXT UNIQUE, idade INTEGER)')
-    db.exec(`INSERT INTO users (nome, email, idade) VALUES (
-        "${ctx.request.body.nome}", 
-        "${ctx.request.body.email}", 
-        ${ctx.request.body.idade})`,
-        err => {
-            if(err) console.log(err.message)
-        }
-    )
-    ctx.status = 201
+
+    if(!ctx.request.body.nome || ctx.request.body.nome === undefined || ctx.request.body.nome === null) {
+        errors.push({message: "Nome inválido"})
+    }
+
+    if(!ctx.request.body.email || ctx.request.body.email === undefined || ctx.request.body.email === null) {
+        errors.push({message: "Email inválido"})
+    }
+
+    if(!ctx.request.body.idade || ctx.request.body.idade === undefined || ctx.request.body.idade === null) {
+        errors.push({message: "Idade inválida"})
+    }
+
+    if(ctx.request.body.idade < 18) {
+        errors.push({message: "Idade inválida. Necessário ter mais de 18 anos"})
+    }
+
+    if(errors.length > 0) {
+        console.log(errors[0].message)
+    } else {
+        db.exec(`INSERT INTO users (nome, email, idade) VALUES (
+            "${ctx.request.body.nome}", 
+            "${ctx.request.body.email}", 
+            ${ctx.request.body.idade})`,
+            err => {
+                if(err) console.log(err.message)
+            }
+        )
+        ctx.status = 201
+    }
+
 })
 
 // Rota que busca um usuario especifico

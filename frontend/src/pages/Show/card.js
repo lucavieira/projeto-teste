@@ -8,7 +8,6 @@ const Card = ({id, nome, email, idade, deletaUser}) => {
                 <div className="d-flex gap-3 mt-3">
                     <a className="btn btn-outline-dark" href={"/edit/" + id} role="button">Editar</a>
                     <button type='button' className='btn btn-outline-danger' onClick={() => deletaUser(nome, id)}>Excluir</button>
-                    {/* <button type='button' className='btn float-end' onClick={() => deletaUser(nome)}>&#128465;</button> */}
                 </div>
             </div>
         </div>

@@ -33,8 +33,8 @@ const Create = () => {
             </div>
           </form>
           <div className='d-flex gap-3'>
-            <a class="btn btn-outline-dark mb-3" href="/" onClick={enviaDados} role="button">Criar usuário</a>
-            <a class="btn btn-outline-dark mb-3" href="/listar" role="button">Listar usuários</a>
+            <a className="btn btn-outline-success mb-3" href="/" onClick={enviaDados} role="button">Cadastrar usuário</a>
+            <a className="btn btn-outline-dark mb-3" href="/listar" role="button">Listar usuários</a>
           </div>
         </div>
       </div>

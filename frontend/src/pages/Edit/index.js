@@ -55,8 +55,8 @@ const Edit = () => {
                         </div>
                     </form>
                     <div className='d-flex gap-3'>
-                        <a class="btn btn-outline-success mb-3" href="/listar" onClick={() => editUser(user.id)} role="button">Salvar</a>
-                        <a class="btn btn-outline-dark mb-3" href="/" role="button">Voltar</a>
+                        <a className="btn btn-outline-success mb-3" href="/listar" onClick={() => editUser(user.id)} role="button">Salvar</a>
+                        <a className="btn btn-outline-dark mb-3" href="/" role="button">Voltar</a>
                     </div>
                 </div>
             </div>
