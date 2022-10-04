@@ -4,12 +4,14 @@ import api from '../../services/api'
 const Create = () => {
   const [data, setData] = useState()
 
+  // Mensagens temporarias que monstram quando dar erro ou não
   const alertMessage = (message, type) => {
     document.getElementById('message').innerHTML = message
     document.getElementById('message').classList.add(type)
     document.getElementById('message').classList.remove('d-none')
   }
 
+  // Envia os dados do usuario a ser cadastrado
   const enviaDados = () => {
     api.post('/user', data)
       .then(result => {
